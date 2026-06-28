@@ -112,6 +112,16 @@ class TicketApiTest {
                             .contentType(MediaType.APPLICATION_JSON).content("{\"assigneeId\":1}"))
                     .andExpect(status().isForbidden());
         }
+
+        @Test
+        @DisplayName("USER 는 상태 변경 불가 403 (본인 티켓이어도)")
+        void userCannotChangeStatus() throws Exception {
+            String userAuth = token("user1", "user123");
+            long id = createTicket(userAuth, "상태변경시도");
+            mockMvc.perform(patch("/api/tickets/{id}/status", id).header("Authorization", userAuth)
+                            .contentType(MediaType.APPLICATION_JSON).content("{\"status\":\"IN_PROGRESS\"}"))
+                    .andExpect(status().isForbidden());
+        }
     }
 
     @Nested

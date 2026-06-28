@@ -46,6 +46,7 @@ public class TicketController {
     }
 
     @PatchMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
     public ApiResult<TicketDetail> changeStatus(@LoginUser AuthUser me, @PathVariable Long id,
                                                 @Valid @RequestBody UpdateStatusRequest request) {
         return ApiResult.success(ticketService.changeStatus(me, id, request.status()));
