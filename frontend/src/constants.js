@@ -1,4 +1,4 @@
-// Status transition map. CLOSED is terminal.
+
 export const STATUS_TRANSITIONS = {
   OPEN: ['IN_PROGRESS', 'CLOSED'],
   IN_PROGRESS: ['RESOLVED', 'CLOSED'],

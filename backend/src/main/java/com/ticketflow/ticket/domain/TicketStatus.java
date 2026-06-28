@@ -4,10 +4,6 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * 티켓 상태와 허용 전이 규칙.
- * OPEN → IN_PROGRESS|CLOSED, IN_PROGRESS → RESOLVED|CLOSED, RESOLVED → CLOSED|IN_PROGRESS(재오픈), CLOSED → (종료)
- */
 public enum TicketStatus {
     OPEN, IN_PROGRESS, RESOLVED, CLOSED;
 

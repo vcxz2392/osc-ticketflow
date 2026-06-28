@@ -25,7 +25,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-/** UserService 단위 테스트. */
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
@@ -58,7 +57,7 @@ class UserServiceTest {
 
             userService.create(admin, new CreateUserRequest("new", "pw12345678", "이름", Role.USER));
 
-            verify(companyRepository).findById(10L);   // 토큰 companyId 로 스코프
+            verify(companyRepository).findById(10L);
             var captor = org.mockito.ArgumentCaptor.forClass(com.ticketflow.user.domain.User.class);
             verify(userRepository).save(captor.capture());
             var saved = captor.getValue();

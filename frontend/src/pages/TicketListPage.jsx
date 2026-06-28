@@ -31,7 +31,7 @@ export default function TicketListPage() {
     try {
       setStats(await ticketsApi.stats());
     } catch {
-      /* stats are non-critical */
+
     }
   }, []);
 

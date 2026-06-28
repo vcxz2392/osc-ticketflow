@@ -22,7 +22,6 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** 티켓 API 통합 테스트 + REST Docs. 시드: TestCo(admin1/ADMIN, user1/USER). */
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
@@ -82,7 +81,7 @@ class TicketApiTest {
             mockMvc.perform(get("/api/tickets").header("Authorization", adminAuth))
                     .andExpect(status().isOk())
                     .andDo(document("ticket-list"));
-            // USER 목록엔 본인 것만 (관리자 티켓 미포함) → 최소 1건, 모두 requesterName=사용자 보장은 생략하고 가시성은 상세에서 검증
+
             mockMvc.perform(get("/api/tickets").header("Authorization", userAuth))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.success").value(true));
@@ -138,7 +137,7 @@ class TicketApiTest {
                     .andExpect(jsonPath("$.data.status").value("IN_PROGRESS"))
                     .andDo(document("ticket-status",
                             requestFields(fieldWithPath("status").description("대상 상태"))));
-            // IN_PROGRESS → OPEN 은 비허용
+
             mockMvc.perform(patch("/api/tickets/{id}/status", id).header("Authorization", admin)
                             .contentType(MediaType.APPLICATION_JSON).content("{\"status\":\"OPEN\"}"))
                     .andExpect(status().isConflict())

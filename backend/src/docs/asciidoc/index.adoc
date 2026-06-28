@@ -5,11 +5,6 @@
 :sectlinks:
 :source-highlighter: highlightjs
 
-회사·유저·티켓 기반 헬프데스크 API. 모든 예시는 **통과한 테스트에서 자동 생성**된다.
-
-표준 응답: 성공 `{"success":true,"data":...}` / 실패 `{"success":false,"error":{"code","message"}}`.
-`/api/auth/**` 외 모든 요청은 `Authorization: Bearer <token>` 필요.
-
 == 인증
 
 === 회사 가입 (온보딩)

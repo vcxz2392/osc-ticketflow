@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/** 회사 소속 사용자. 비밀번호는 BCrypt 해시로 저장한다. (스키마는 Flyway 소유) */
 @Entity
 @Table(name = "users")
 @Getter

@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/** 회사(테넌트). 유저·티켓이 회사에 소속된다. (스키마는 Flyway 소유) */
 @Entity
 @Table(name = "companies")
 @Getter

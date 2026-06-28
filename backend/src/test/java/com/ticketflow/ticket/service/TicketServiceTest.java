@@ -28,7 +28,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 
-/** TicketService 단위 테스트 — 테넌트 스코프/가시성/위임 로직 격리 검증. */
 @ExtendWith(MockitoExtension.class)
 class TicketServiceTest {
 
@@ -55,7 +54,7 @@ class TicketServiceTest {
         void userCannotSeeOthers() {
             Ticket t = org.mockito.Mockito.mock(Ticket.class);
             User otherRequester = org.mockito.Mockito.mock(User.class);
-            given(otherRequester.getId()).willReturn(999L);             // me.userId=2 와 불일치
+            given(otherRequester.getId()).willReturn(999L);
             given(t.getRequester()).willReturn(otherRequester);
             given(ticketRepository.findByIdAndCompanyId(5L, 100L)).willReturn(Optional.of(t));
 
@@ -107,7 +106,7 @@ class TicketServiceTest {
 
             ticketService.assign(admin, 5L, 3L);
 
-            verify(t).assignTo(assignee);           // 같은 회사 스코프 담당자
+            verify(t).assignTo(assignee);
         }
 
         @Test

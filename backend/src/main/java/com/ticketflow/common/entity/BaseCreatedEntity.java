@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
-/** 생성 시각만 갖는 append-only 엔티티의 공통 부모. created_at 을 Auditing 으로 자동 채운다. */
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

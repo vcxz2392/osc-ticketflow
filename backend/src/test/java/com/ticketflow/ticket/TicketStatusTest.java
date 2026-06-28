@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import static com.ticketflow.ticket.domain.TicketStatus.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** 상태 전이 규칙 단위 테스트. */
 class TicketStatusTest {
 
     @Nested

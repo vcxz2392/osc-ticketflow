@@ -10,7 +10,7 @@ export default function LoginPage() {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
 
-  const [mode, setMode] = useState('login'); // 'login' | 'signup'
+  const [mode, setMode] = useState('login');
   const [form, setForm] = useState({
     companyName: '',
     username: '',

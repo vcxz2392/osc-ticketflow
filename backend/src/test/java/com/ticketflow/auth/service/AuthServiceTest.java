@@ -28,7 +28,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-/** AuthService 단위 테스트 (repo/encoder/tokenProvider 목킹). */
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
 
@@ -58,7 +57,7 @@ class AuthServiceTest {
             AuthResponse res = authService.signup(new SignupRequest("새회사", "owner", "pw12345678", "오너"));
 
             assertThat(res.token()).isEqualTo("tok");
-            // 저장된 User 인자 검증: ADMIN 권한·해시 비밀번호·회사 연결
+
             var captor = org.mockito.ArgumentCaptor.forClass(User.class);
             verify(userRepository).save(captor.capture());
             User saved = captor.getValue();

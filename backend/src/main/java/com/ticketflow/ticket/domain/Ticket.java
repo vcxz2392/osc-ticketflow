@@ -13,7 +13,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/** 티켓. 상태 전이·담당자 배정 규칙을 도메인 메서드로 캡슐화한다. (스키마는 Flyway 소유) */
 @Entity
 @Table(name = "tickets")
 @Getter
@@ -50,7 +49,6 @@ public class Ticket extends BaseTimeEntity {
     @Column(nullable = false, length = 16)
     private Priority priority;
 
-    /** 회사는 요청자 소속에서 파생 → 요청자/티켓 회사 불일치를 구조적으로 차단(테넌트 불변식). */
     @Builder
     private Ticket(User requester, String title, String description, Priority priority) {
         this.requester = requester;
@@ -61,7 +59,6 @@ public class Ticket extends BaseTimeEntity {
         this.status = TicketStatus.OPEN;
     }
 
-    /** 허용된 전이만 수행. 그 외는 409(InvalidTransition). */
     public void changeStatus(TicketStatus target) {
         if (!status.canTransitionTo(target)) {
             throw new InvalidTransitionException(status + " → " + target + " 전이는 허용되지 않습니다.");
@@ -69,7 +66,6 @@ public class Ticket extends BaseTimeEntity {
         this.status = target;
     }
 
-    /** 담당자 배정. 같은 회사 ADMIN 만, 진행 가능한 상태에서만. (상태 전이와는 독립) */
     public void assignTo(User assignee) {
         if (assignee == null || assignee.getRole() != Role.ADMIN) {
             throw new BusinessException(ErrorCode.INVALID_INPUT, "담당자는 같은 회사의 ADMIN 만 가능합니다.");

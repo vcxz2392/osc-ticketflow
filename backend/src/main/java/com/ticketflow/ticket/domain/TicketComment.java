@@ -10,7 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/** 티켓 코멘트(대화/처리 이력). (스키마는 Flyway 소유) */
 @Entity
 @Table(name = "ticket_comments")
 @Getter

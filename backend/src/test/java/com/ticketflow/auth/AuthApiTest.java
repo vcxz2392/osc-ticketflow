@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** 인증 API 통합 테스트 + REST Docs. */
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs

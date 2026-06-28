@@ -1,4 +1,3 @@
--- 초기 스키마. Hibernate DDL 과 동일하게 맞춰 ddl-auto=validate 를 통과한다.
 
 create table companies (
     id          bigint not null auto_increment,
@@ -41,17 +40,14 @@ create table ticket_comments (
     primary key (id)
 ) engine=InnoDB;
 
--- 유니크
 alter table users add constraint uk_users_username unique (username);
 
--- 인덱스 (조회 패턴)
 create index idx_user_company_role     on users (company_id, role);
 create index idx_ticket_company_status on tickets (company_id, status, created_at);
 create index idx_ticket_assignee       on tickets (assignee_id);
 create index idx_ticket_requester      on tickets (requester_id);
 create index idx_comment_ticket        on ticket_comments (ticket_id, created_at);
 
--- 외래키
 alter table users           add constraint fk_user_company       foreign key (company_id)   references companies (id);
 alter table tickets         add constraint fk_ticket_company     foreign key (company_id)   references companies (id);
 alter table tickets         add constraint fk_ticket_requester   foreign key (requester_id) references users (id);

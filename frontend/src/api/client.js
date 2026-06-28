@@ -23,7 +23,6 @@ const api = axios.create({
   baseURL: '/api',
 });
 
-// Calls that should NOT trigger the 401 redirect (the auth screens themselves).
 const AUTH_PATHS = ['/auth/login', '/auth/signup'];
 
 function isAuthCall(config) {
@@ -31,7 +30,6 @@ function isAuthCall(config) {
   return AUTH_PATHS.some((p) => url.includes(p));
 }
 
-// Request interceptor: attach bearer token.
 api.interceptors.request.use((config) => {
   const token = tokenStore.getToken();
   if (token) {
@@ -41,10 +39,9 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor: unwrap success envelope, normalize errors.
 api.interceptors.response.use(
   (response) => {
-    // Success envelope: { success: true, data: <payload> }
+
     if (response.data && typeof response.data === 'object' && 'data' in response.data) {
       response.data = response.data.data;
     }
