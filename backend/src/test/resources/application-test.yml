@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:ticketflow;DB_CLOSE_DELAY=-1;MODE=MySQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true   # 스키마 생성 후 data.sql 시드
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  flyway:
+    enabled: false
+  sql:
+    init:
+      mode: always
+
+ticketflow:
+  security:
+    jwt:
+      secret: test-secret-key-for-junit-only-do-not-use-anywhere-okay
+      expiration-ms: 3600000
