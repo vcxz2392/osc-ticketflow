@@ -1,0 +1,36 @@
+# 전체 스택 한 번에: docker compose up --build  → http://localhost:5173
+# (개발 중 백엔드만 gradle 로 띄울 땐: docker compose up -d mysql 후 ./gradlew bootRun)
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ticketflow-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ticketflow
+      MYSQL_USER: ticketflow
+      MYSQL_PASSWORD: ticketflow
+    ports: ["3306:3306"]   # 개발 시 호스트에서 gradle bootRun 접속용
+    volumes: [ticketflow-mysql-data:/var/lib/mysql]
+    healthcheck:
+      test: ["CMD","mysqladmin","ping","-h","localhost","-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  backend:
+    build: ./backend
+    container_name: ticketflow-backend
+    depends_on:
+      mysql: { condition: service_healthy }
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: ticketflow
+      DB_PASSWORD: ticketflow
+    ports: ["8080:8080"]
+  frontend:
+    build: ./frontend
+    container_name: ticketflow-frontend
+    depends_on: [backend]
+    ports: ["5173:80"]
+volumes:
+  ticketflow-mysql-data:
