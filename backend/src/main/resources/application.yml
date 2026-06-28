@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: ticketflow
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/ticketflow?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: ${DB_USER:ticketflow}
+    password: ${DB_PASSWORD:ticketflow}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      # 스키마는 Flyway 가 소유하고 Hibernate 는 엔티티-스키마 일치만 검증한다.
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: false
+
+ticketflow:
+  security:
+    jwt:
+      secret: ${JWT_SECRET:ticketflow-dev-secret-key-change-in-production-please-32}
+      expiration-ms: 3600000
+
+logging:
+  level:
+    org.hibernate.SQL: debug

@@ -1,0 +1,27 @@
+# Java / Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Node / React
+node_modules/
+dist/
+frontend/.vite/
+
+# Env
+.env
+*.local
+
+# scratch
+codex_*.md
+
+# 설계/참고 문서는 별도 제출물로 관리 (git 추적 제외)
+docs/SPEC.md
+docs/ai-review-log.md
