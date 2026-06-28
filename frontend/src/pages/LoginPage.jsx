@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 export default function LoginPage() {
   const { login, signup } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
@@ -35,6 +37,7 @@ export default function LoginPage() {
           password: form.password,
           name: form.name,
         });
+        showToast('새 회사와 관리자 계정이 생성되었습니다');
       }
       navigate(from, { replace: true });
     } catch (err) {
@@ -97,6 +100,12 @@ export default function LoginPage() {
             </label>
           )}
 
+          {mode === 'signup' && (
+            <p className="auth-note">
+              새 회사와 첫 관리자(ADMIN) 계정을 만듭니다. 일반 멤버는 관리자가 추가합니다.
+            </p>
+          )}
+
           {error && <div className="alert alert-error">{error}</div>}
 
           <button className="btn btn-primary btn-block" disabled={submitting}>
@@ -111,7 +120,7 @@ export default function LoginPage() {
         <div className="auth-toggle">
           {mode === 'login' ? (
             <button className="link-btn" onClick={() => setMode('signup')}>
-              회사가 없으신가요? 회원가입
+              새 회사로 시작하기
             </button>
           ) : (
             <button className="link-btn" onClick={() => setMode('login')}>

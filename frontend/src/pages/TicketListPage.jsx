@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ticketsApi } from '../api/tickets';
+import { useToast } from '../context/ToastContext';
 import { StatusBadge, PriorityBadge } from '../components/Badge';
 import {
   STATUS_ORDER,
@@ -14,6 +15,7 @@ const EMPTY_STATS = { open: 0, inProgress: 0, resolved: 0, closed: 0 };
 
 export default function TicketListPage() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const [tickets, setTickets] = useState([]);
   const [stats, setStats] = useState(EMPTY_STATS);
   const [statusFilter, setStatusFilter] = useState('');
@@ -62,6 +64,7 @@ export default function TicketListPage() {
       const created = await ticketsApi.create(form);
       setForm({ title: '', description: '', priority: 'MEDIUM' });
       setShowForm(false);
+      showToast('티켓이 등록되었습니다');
       await Promise.all([loadTickets(), loadStats()]);
       if (created?.id) navigate(`/tickets/${created.id}`);
     } catch (err) {

@@ -3,12 +3,14 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ticketsApi, usersApi } from '../api/tickets';
 import { StatusBadge, PriorityBadge } from '../components/Badge';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { STATUS_TRANSITIONS, STATUS_LABELS, formatDateTime } from '../constants';
 
 export default function TicketDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isAdmin } = useAuth();
+  const { showToast } = useToast();
 
   const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -44,12 +46,13 @@ export default function TicketDetailPage() {
       .catch(() => setAdmins([]));
   }, [isAdmin]);
 
-  const runAction = async (fn) => {
+  const runAction = async (fn, successMessage) => {
     setActionError('');
     setBusy(true);
     try {
       const updated = await fn();
       if (updated) setTicket(updated);
+      if (successMessage) showToast(successMessage);
     } catch (err) {
       setActionError(err.displayMessage || '작업에 실패했습니다.');
     } finally {
@@ -58,11 +61,14 @@ export default function TicketDetailPage() {
   };
 
   const handleStatusChange = (status) =>
-    runAction(() => ticketsApi.updateStatus(id, status));
+    runAction(() => ticketsApi.updateStatus(id, status), '상태가 변경되었습니다');
 
   const handleAssign = () => {
     if (!selectedAssignee) return;
-    runAction(() => ticketsApi.assign(id, Number(selectedAssignee)));
+    runAction(
+      () => ticketsApi.assign(id, Number(selectedAssignee)),
+      '담당자가 배정되었습니다'
+    );
   };
 
   const handleAddComment = async (e) => {
@@ -72,7 +78,7 @@ export default function TicketDetailPage() {
       const updated = await ticketsApi.addComment(id, comment.trim());
       setComment('');
       return updated;
-    });
+    }, '댓글이 등록되었습니다');
   };
 
   const handleDelete = async () => {
@@ -135,25 +141,27 @@ export default function TicketDetailPage() {
 
       {actionError && <div className="alert alert-error">{actionError}</div>}
 
-      <div className="card">
-        <h2>상태 변경</h2>
-        {transitions.length === 0 ? (
-          <p className="muted">더 이상 변경할 수 있는 상태가 없습니다.</p>
-        ) : (
-          <div className="btn-group">
-            {transitions.map((s) => (
-              <button
-                key={s}
-                className="btn btn-outline"
-                disabled={busy}
-                onClick={() => handleStatusChange(s)}
-              >
-                {STATUS_LABELS[s]} ({s})
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
+      {isAdmin && (
+        <div className="card">
+          <h2>상태 변경</h2>
+          {transitions.length === 0 ? (
+            <p className="muted">더 이상 변경할 수 있는 상태가 없습니다.</p>
+          ) : (
+            <div className="btn-group">
+              {transitions.map((s) => (
+                <button
+                  key={s}
+                  className="btn btn-outline"
+                  disabled={busy}
+                  onClick={() => handleStatusChange(s)}
+                >
+                  {STATUS_LABELS[s]} ({s})
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {isAdmin && (
         <div className="card">
