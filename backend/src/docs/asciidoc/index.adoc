@@ -1,0 +1,50 @@
+= TicketFlow API 문서
+:doctype: book
+:toc: left
+:toclevels: 2
+:sectlinks:
+:source-highlighter: highlightjs
+
+회사·유저·티켓 기반 헬프데스크 API. 모든 예시는 **통과한 테스트에서 자동 생성**된다.
+
+표준 응답: 성공 `{"success":true,"data":...}` / 실패 `{"success":false,"error":{"code","message"}}`.
+`/api/auth/**` 외 모든 요청은 `Authorization: Bearer <token>` 필요.
+
+== 인증
+
+=== 회사 가입 (온보딩)
+`POST /api/auth/signup` — 새 회사와 첫 ADMIN 사용자를 생성한다.
+
+operation::auth-signup[snippets='http-request,request-fields,http-response,response-fields']
+
+=== 로그인
+`POST /api/auth/login`
+
+operation::auth-login[snippets='http-request,request-fields,http-response,response-fields']
+
+== 티켓
+
+=== 생성
+`POST /api/tickets` — 요청자는 로그인 사용자, 회사는 자동 결정.
+
+operation::ticket-create[snippets='http-request,request-fields,http-response']
+
+=== 목록 (회사 스코프)
+`GET /api/tickets?status=&assigneeId=` — USER 본인분, ADMIN 회사 전체.
+
+operation::ticket-list[snippets='http-request,http-response']
+
+=== 상태 전이
+`PATCH /api/tickets/{id}/status`
+
+operation::ticket-status[snippets='http-request,request-fields,http-response']
+
+=== 담당자 배정 (ADMIN)
+`PATCH /api/tickets/{id}/assignee`
+
+operation::ticket-assign[snippets='http-request,request-fields,http-response']
+
+=== 코멘트
+`POST /api/tickets/{id}/comments`
+
+operation::ticket-comment[snippets='http-request,request-fields,http-response']
