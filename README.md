@@ -44,7 +44,7 @@ cd backend
 `ApiResult<T>` 표준 응답 + `ErrorCode` 카탈로그 · package-by-feature 레이어드(controller/service/repository/domain/dto) · Flyway(V1 스키마/V2 시드, `ddl-auto=validate`) · BaseEntity+Auditing · JWT + `@PreAuthorize` · `@LoginUser` 회사 스코프 · 네이티브 커스텀 리포지토리 + DTO 매핑 · REST Docs.
 
 ## 테스트 구성
-도메인 단위(`TicketStatusTest`) · 서비스 단위(Mockito, `*ServiceTest`) · API 통합(MockMvc + RestDocs, `*ApiTest`) 3계층, 총 35개.
+도메인 단위(`TicketStatusTest`) · 서비스 단위(Mockito, `*ServiceTest`) · API 통합(MockMvc + RestDocs, `*ApiTest`) 3계층, 총 36개.
 
 ## 주요 API
 모든 응답은 `ApiResult<T>` 엔벨로프(`{success, data}` 또는 `{success, error:{code, message}}`).
@@ -71,7 +71,4 @@ frontend/         React(Vite) — 로그인·티켓목록·상세
 ```
 
 ## 문서
-- `docs/DESIGN.md` — 설계 문서 7항목
-- `docs/MANUAL.md` — 사용자 매뉴얼(화면 캡쳐)
-- `docs/ai-review-log.md` — Codex 리뷰 라운드 기록
-- `docs/SPEC.md` — 구현 기준 스펙
+설계 문서(7항목)와 사용자 매뉴얼은 제출 시 별도로 제공합니다.

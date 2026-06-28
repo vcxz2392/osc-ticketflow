@@ -23,5 +23,4 @@ frontend/.vite/
 codex_*.md
 
 # 설계/참고 문서는 별도 제출물로 관리 (git 추적 제외)
-docs/SPEC.md
-docs/ai-review-log.md
+docs/
